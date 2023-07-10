@@ -1,9 +1,10 @@
 {% extends 'schedule/adminstart.html' %}
 {% block content %}
 <br>
-<table class="mytable">
+<table class="mytable" id="myTable">
   <thead>
     <tr>
+      <th>EXAM&nbsp;ID</th>
     <!--  <th>EXAM&nbsp;Id</th>-->
      <th>EXAM&nbsp;&nbsp;DATE</th>
      <th>EXAM&nbsp;&nbsp;TIME</th>
@@ -22,9 +23,9 @@
   <tbody>
     {% for i in data %} 
     <tr>
-      <!--<td data-column="EXAM_Id">{{ i.ex.id}}</td>-->
+      <td data-column="EXAM_Id">{{ i.id}}</td>
       <td data-column="EXAM__DATE">{{ i.exam_date }}</td>
-      <td data-column="TIME">{{ i.exam_stime }}</td>
+      <td data-column="TIME">{{ i.exam_stime }}--{{i.exam_etime}}</td>
       <td data-column="Invigilator&nbsp;1">{{ i.Invigilator }}</td>
       <td data-column="Invigilator&nbsp;2">{{ i.Superintendent}}</td>
       <td data-column="Deputy">{{i.Deputy}}</td>
@@ -42,7 +43,51 @@
      </table>
   
 <center>
-<a href="{% url 'save_automatic' %}" <button class="btn btn-secondary" >CONTINUE&nbsp;</button></a>&nbsp;&nbsp;&nbsp;
+  <form action="{% url 'save_automatic' %}" method="POST">{% csrf_token %}
+ <button id="btnn"class="btn btn-secondary" >CONTINUE&nbsp;</button></form>
 <a href="{% url 'send_email' %}" <button class="btn btn-success" >SEND&nbsp;EMAIL</button></a>
 </center>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Retrieve the CSRF token
+  var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+
+  $('#submitBtn').on('click', function() {
+    var tableData = [];
+    $('#myTable tbody tr').each(function(rowIdx, row) {
+      var rowData = [];
+      $(row).find('td').each(function(colIdx, col) {
+        rowData.push($(col).text());
+      });
+      tableData.push(rowData);
+    });
+    sendData(tableData);
+  });
+
+  function sendData(data) {
+    // Include the CSRF token in the AJAX request headers
+    $.ajaxSetup({
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('X-CSRFToken', csrfToken);
+      }
+    });
+
+    $.ajax({
+      url: '/save_automatic/', // Replace with your Django view URL
+      type: 'POST',
+      data: { tableData: JSON.stringify(data) },
+      success: function(response) {
+        // Handle the response from the Django view
+        console.log(response);
+      },
+      error: function(xhr, status, error) {
+        // Handle the AJAX error
+        console.log(error);
+      }
+    });
+  }
+});
+</script>
+
 {% endblock content %}

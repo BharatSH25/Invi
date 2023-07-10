@@ -32,7 +32,7 @@
       <td data-column="DEPARTMENT">{{ i.room.d }}</td>
       <td data-column="SEMESTER">{{ i.ex.semester }}</td>
       
-      <td data-column="EDIT"><a href="{% url 'update' i.id %}"><i class="fa fa-edit" style="font-size: 25px;color:#0d7377" ></i></a></td>
+      <td data-column="EDIT"><a href="{% url 'update' i.ex.id %}"><i class="fa fa-edit" style="font-size: 25px;color:#0d7377" ></i></a></td>
       <td data-column="DELETE"><a href="{% url 'delete' i.id %}"><i class="fa fa-trash"  style="font-size:25px;color:#ff414d"></a></i></td>
       </tr>
         {% endfor %}

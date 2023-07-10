@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from schedule.forms import tt1
+import json
 
 from exam_invigilator import settings
 from django.core.mail import send_mail,EmailMessage
@@ -289,25 +290,36 @@ def addroom(request):
 	return render(request,'schedule/addroom.html')
 #update in timetable by clicking edit symbol
 def update(request,cid):
-	data=conduct.objects.get(id=cid)
+	data=conduct.objects.get(ex_id=cid)
+
+	print(cid)
+	print(data.ex_id)
 	
 	if request.method=="POST":
-		i=data.id
-		fe=request.POST['fname']
-		f=request.POST['fna2']
-		ro=request.POST['room']
-		sem=request.POST['sem']
-		sub=request.POST['sub']
-		dept=request.POST['dept']
+		try:
+			i=cid
+			fe=request.POST['fname']
+			f=request.POST['fna2']
+			fd=request.POST['fna3']
+			ro=request.POST['room']
+			#sem=request.POST['sem']
+			#sub=request.POST['sub']
+			#dept=request.POST['dept']
+			
+			exobj=exam.objects.get(id=i)
+			
+			r=room.objects.get(roomno=ro)
+			x=faculty.objects.get(fname=fe)
 		
-		edit=exam.objects.update(id=data.ex.id,semester=sem,subject=sub)
-		data=conduct.objects.select_related('ex','fna1','room').get(id=i)
-		r=room.objects.get(roomno=ro)
-		x=faculty.objects.get(fname=fe)
-		data.fna2=f
-		data.fna1=x
-		data.room=r
-		data.save()
+			#edit=exam.objects.update(id=data.ex.id,semester=sem,subject=sub)
+			data=conduct.objects.get(ex_id=cid)
+			data.fna2=f
+			data.fna1=x
+			data.fna3=fd
+			data.room=r
+			data.save()
+		except Exception as e:
+			print(str(e))
 
 		data1=conduct.objects.select_related('ex','fna1','room').all()
 		return render(request,'schedule/timetable.html',{'data':data1})
@@ -316,12 +328,14 @@ def update(request,cid):
 	d1=exam.objects.get(id=data.ex.id)
 	s1=conduct.objects.filter(ex=d1).values('fna1')
 	s2=conduct.objects.filter(ex=d1).values('room')
-	dy=faculty.objects.filter(faculty_status='y').exclude(fname__in=s1)
+	dy=faculty.objects.filter(faculty_status='y',designation__in=['ASSISTANT PROFESSOR']).exclude(fname__in=s1)
+	ds=faculty.objects.filter(faculty_status='y',designation__in=['HOD','PROFESSOR'])
+	dd=faculty.objects.filter(faculty_status='y',designation__in=['PRINCIPAL','VICE PRINCIPAL','DEAN','ASSOCIATE DEAN'])
 	data3=room.objects.filter(room_status='y').exclude(roomno__in=s2)
 
 	s3=conduct.objects.filter(ex=d1).values('fna2')
 	dz=dy.exclude(fname__in=s3)
-	return render(request,'schedule/edit.html',{'data':data,'x':d1,'y':dz,'z':data3})
+	return render(request,'schedule/edit.html',{'data':data,'x':d1,'y':dz,'z':data3,'ds':ds,'dd':dd}) 
 #faculty page after login
 def facstart(request):
 	return render(request,'schedule/facstart.html')
@@ -443,12 +457,16 @@ def deltt(req,name):
 def send_email(request):
 	data1=conduct.objects.select_related('ex','fna1','room').values('fna1')
 	data2=conduct.objects.select_related('ex','fna1','room').values('fna2')
+	data3=conduct.objects.select_related('ex','fna1','room').values('fna2')
 	f1=faculty.objects.filter(fname__in=data1)
 	f2=faculty.objects.filter(fname__in=data2)
+	f3=faculty.objects.filter(fname__in=data3)
 	l=[]
 	for i in f1:
 		l.append(i.email)
 	for i in f2:
+		l.append(i.email)
+	for i in f3:
 		l.append(i.email)
 	if request.method=="POST":
 		
@@ -493,15 +511,16 @@ def automatic(request):
 	exam_df = pd.DataFrame(list(exam_data.values('id', 'exam_date', 'exam_stime', 'exam_etime', 'semester', 'dept', 'subject')))
 	room_df=pd.DataFrame(list(room_data.values('roomno','roomcapacity','room_status','d')))
 	faculty_df=pd.DataFrame(list(faculty_data.values('fname','faculty_id','faculty_status','email','dept','designation','phone')))
-	new_df = pd.DataFrame(columns=[ 'id','exam_date','exam_stime','Room', 'Department', 'Invigilator'])
+	new_df = pd.DataFrame(columns=[ 'id','exam_date','exam_stime','exam_etime','Room', 'Department', 'Invigilator'])
 	for index, row in exam_df.iterrows():
 		id=row['id']
 		exam_date = row['exam_date']
-		exam_time = row['exam_stime']
+		exam_stime = row['exam_stime']
+		exam_etime=row['exam_etime']
 		room_number = room_df.loc[index % len(room_df), 'roomno']
 		department = room_df.loc[index % len(room_df), 'd']
 		invigilator_name = faculty_df.loc[index % len(faculty_df), 'fname']
-		new_df.loc[index] = [id,exam_date, exam_time, room_number, department, invigilator_name]
+		new_df.loc[index] = [id,exam_date, exam_stime,exam_etime, room_number, department, invigilator_name]
 	superintendent_data=faculty.objects.filter(faculty_status='y',designation__in=['PROFESSOR','HOD']).all()
 	superintendent_df = pd.DataFrame(list(superintendent_data.values('fname')))
 	#for deputy chiefs
@@ -541,37 +560,88 @@ def automatic(request):
 			deputy_df.loc[len(deputy_df)]=[ dc_name]
 	combined_df = pd.concat([new_df, s_df,deputy_df], axis=1)
 	final_data= combined_df.to_dict('records')
-
-
-	if request.method=='POST':
-		
-		try:
-			for i in final_data:
-
-				obj=conduct(id=id,fna1=Invigilator,fna2=Superintendent,fna3=Deputy,room=Room)
-				obj.save()
-			
-		except Exception as e:
-			print(str(e))
-
-		
-
-
+	print(combined_df)
+	
+	
 	return render(request,'schedule/automatic.html',{'data':final_data})
+	
 
 def save_automatic(request):
+	if request.method=='POST':
+		#table_data = json.loads(request.POST.get('tableData'))
+		exam_ids_in_conduct = conduct.objects.values_list('ex_id', flat=True)
+		exam_data = exam.objects.exclude(id__in=exam_ids_in_conduct).all()
+		faculty_data=faculty.objects.filter(faculty_status='y',designation__in=['ASSISTANT PROFESSOR']).all()
+		room_data=room.objects.all()
+		import pandas as pd
+		exam_df = pd.DataFrame(list(exam_data.values('id', 'exam_date', 'exam_stime', 'exam_etime', 'semester', 'dept', 'subject')))
+		room_df=pd.DataFrame(list(room_data.values('roomno','roomcapacity','room_status','d')))
+		faculty_df=pd.DataFrame(list(faculty_data.values('fname','faculty_id','faculty_status','email','dept','designation','phone')))
+		new_df = pd.DataFrame(columns=[ 'id','exam_date','exam_stime','exam_etime','Room', 'Department', 'Invigilator'])
+		for index, row in exam_df.iterrows():
+			id=row['id']
+			exam_date = row['exam_date']
+			exam_stime = row['exam_stime']
+			exam_etime=row['exam_etime']
+			room_number = room_df.loc[index % len(room_df), 'roomno']
+			department = room_df.loc[index % len(room_df), 'd']
+			invigilator_name = faculty_df.loc[index % len(faculty_df), 'fname']
+			new_df.loc[index] = [id,exam_date, exam_stime,exam_etime, room_number, department, invigilator_name]
+		superintendent_data=faculty.objects.filter(faculty_status='y',designation__in=['PROFESSOR','HOD']).all()
+		superintendent_df = pd.DataFrame(list(superintendent_data.values('fname')))
+		#for deputy chiefs
+		dc_data=faculty.objects.filter(faculty_status='y',designation__in=['PRINCIPAL','VICE PRINCIPAL','DEAN','ASSOCIATE DEAN']).all()
+		dc_df=pd.DataFrame(list(dc_data.values('fname')))
 
-	try:
-			
-			
-			for i in final_data:
+		departments = new_df['Department'].tolist()
+		date_based=new_df['exam_date'].tolist()
+		s_df= pd.DataFrame(columns=['Superintendent'])
 
-				obj=conduct(id=id,fna1=Invigilator,fna2=Superintendent,fna3=Deputy,room=Room)
-				obj.save()
-			print("success")
-			return redirect('adminpage')
-	except Exception as e:
-			print(str(e))
+		deputy_df=pd.DataFrame(columns=['Deputy'])
+		groups = []
+		current_group = []
+		for i in range(len(departments)):
+			if i == 0 or departments[i] == departments[i-1]:
+				current_group.append(departments[i])
+			else:
+				groups.append(current_group)
+				current_group = [departments[i]]
+		groups.append(current_group)
+		superintendent_count = superintendent_df.shape[0]
+		deputy_count=dc_df.shape[0]
+
+		superintendent_index=0
+		deputy_index=0
+		for group in groups:
+			d = group[0]
+			superintendent_name = superintendent_df.loc[superintendent_index % superintendent_count, 'fname']
+			dc_name= dc_df.loc[deputy_index % deputy_count, 'fname']
+
+			superintendent_index += 1
+			deputy_index += 1
+			for room_number in range(1, len(group) + 1):
+				exam_date = exam_df.iloc[room_number - 1]['exam_date']
+				exam_time = exam_df.iloc[room_number - 1]['exam_stime']
+				s_df.loc[len(s_df)] = [  superintendent_name]
+				deputy_df.loc[len(deputy_df)]=[ dc_name]
+		combined_df = pd.concat([new_df, s_df,deputy_df], axis=1)
+		print(combined_df)
+		try:
+			for index, row in combined_df.iterrows():
+				
+				i=row['id']
+				fna=row['Invigilator']
+				f=row['Superintendent']
+				fna3=row['Deputy']
+				ro=row['Room']
+			
+				exobj=exam.objects.get(id=i)
+				r=room.objects.get(roomno=ro)
+				x=faculty.objects.get(fname=fna)
+				dd=conduct.objects.create(fna1=x,ex=exobj,fna2=f,room=r,fna3=fna3)
+			print("SAVED")
+		except Exception as e:
+			print(str(e)) 
 	return redirect('adminpage')
 
 
