@@ -1,0 +1,61 @@
+
+.nav-item{
+	
+	padding: 0 28px;
+
+}
+.nav-item:hover{
+	display: block;
+	color:#68b0ab;
+	}
+.nav-link{
+	font-size: 1.3rem;
+	color: #ffeeec!important;
+	font-family: "Montserrat-Light";
+}
+body{
+
+	font-family: 'Roboto', sans-serif;
+	background:url('/static/images/first.jpeg') ;
+	background-repeat: no-repeat;  
+  background-size: cover;
+	background-color: #ffbb91;
+	 
+}
+
+.class1{
+
+	color: #30475e;
+	line-height: 2;
+	font-family: 'Merriweather', serif;
+	font-weight: bold;
+	margin: 100px auto 40px auto;
+   
+   animation: mine 3s steps(40);
+   overflow: hidden;
+   white-space: nowrap;
+  
+}
+@keyframes mine {
+	0%{
+		width: 0ch;
+	}
+	100%{
+		width: 40ch;
+	}
+}
+.nav-link:hover{
+	color: #f8bd7f;
+ text-decoration: underline;
+	
+}
+.container-fluid{
+	background-color: #00416d;
+	height: 1.2%;
+	padding:0 0;
+}
+.img{
+	width:4%;
+	height: 4%;
+
+}

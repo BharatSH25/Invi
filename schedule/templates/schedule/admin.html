@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>   
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <title>admin login page</title>
+    <link rel="stylesheet" type="text/css" href="{% static   'css/Mystyle3.css' %}">
+</head>
+    <body>
+
+      {% include 'schedule/messages.html' %}
+      <center><h3 style="color: white;">EXAM-INVIGILATOR ASSIGNMENT SYSTEM</h3></center>
+    <div class="loginbox">
+    <img src="/static/images/admin2.png" id="admin">    
+        <h1>LOGIN HERE</h1>
+        <form action="{% url 'admin1' %}" method="POST">
+            {% csrf_token %}
+           <div class="formbox">
+
+               <label>USERNAME</label> 
+                <input type="text" name="uname" placeholder="Enter Username">
+                
+            </div>
+            <div class="formbox">
+                <label>PASSWORD</label>
+                <input type="password" name="password" placeholder="Enter Password">
+            </div>
+            <input type="submit" name="submit" placeholder="LOGIN">
+           <!--  <center>
+            <a href="a">Forget Password</a>
+            </center> -->
+        </form>
+    </div>
+    </body>
+</html>

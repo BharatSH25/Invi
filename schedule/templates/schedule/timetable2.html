@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+  
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    
+       <link rel="stylesheet"  href="{% static   'css/sheet1.css' %}">
+     </head>
+
+    <body style="  
+  background-image: linear-gradient(to right,   rgb(118, 219, 209,0.1), rgb(118, 219, 209,1));">
+
+
+      <div class="menubar">
+        
+  <ul>
+    <li style="font-size: 24px;">EXAM-INVIGILATOR ASSIGNMENT SYSTEM</li>
+    <li >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+    <li><a href="{% url 'timetable2' %}">INVIGILATION DUTIES</a></li>
+    <li><a href="{% url 'home' %}">LOGOUT</a></li>
+  </ul>
+  </div>
+  {% include 'schedule/messages.html' %}
+
+<br>
+<div id="tab">
+<table class="mytable">
+  <center>
+    <h3>GAYATRI VIDYA PARISHAD COLLEGE OF ENGINEERING FOR WOMEN</h3>
+    <h3>MADHURWADA::VISAKHAPATNAM</h3>
+    <h3 >{{ h.heading }} </h3>
+  </center>
+  <thead>
+    <tr>
+     <th>EXAM&nbsp;&nbsp;DATE</th>
+     <th>EXAM&nbsp;&nbsp;TIME</th>
+     <th>Invigilator&nbsp;1</th>
+     <th>Superintendant&nbsp;</th>
+     <th>ROOMNO</th>
+     <th>SUBJECT</th>
+     <th>DEPARTMENT</th>
+     <th>SEMESTER</th>
+       
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in data %} 
+    
+    <tr>
+      <td data-column="EXAM&nbsp;&nbsp;DATE">{{ i.ex.exam_date }}</td>
+      <td data-column="TIME">{{ i.ex.exam_stime }}</td>
+      <td data-column="Invigilator&nbsp;1">{{ i.fna1.fname }}</td>
+      <td data-column="Invigilator&nbsp;2">{{ i.fna2}}</td>
+      <td data-column="ROOMNO">{{ i.room.roomno }}</td>
+      <td data-column="SUBJECT">{{ i.ex.subject }}</td>
+      <td data-column="DEPARTMENT">{{ i.room.d }}</td>
+      <td data-column="SEMESTER">{{ i.ex.semester }}</td>
+     
+    </tr>
+    {% endfor %}
+  </tbody>
+
+   
+</table>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Head&nbsp;of&nbsp;Department:______________</p>
+</div>
+<center>
+  <button  class="btn btn-success" onclick="myApp.printTable()">DOWNLOAD</button>
+</center>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  <script>
+      var myApp = new function() {
+        this.printTable = function () {
+            var tab = document.getElementById('tab');
+            var style = "<style>";
+            style = style + "table {width: 100%; font: 17px Calibri;}";
+            style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+            style = style + "padding: 2px 3px; text-align: center;}";
+            style = style + "</style>";
+            var win = window.open('', '', 'height=700,width=700');
+            
+            win.document.write(style);
+            win.document.write(tab.outerHTML);
+            win.document.close();
+            win.print();
+        }
+    }
+</script>
+
+
+  <!--
+    <script type="text/javascript">
+        function Export() {
+            html2canvas(document.getElementById('tab'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                            content: [{
+                            heading:'EXAM TIMETABLE',
+                            image: data,
+                            width: 500
+                        }]
+                    }; 
+
+                    pdfMake.createPdf(docDefinition).download("Table.pdf");
+                }
+            });
+        }
+    </script>
+  -->
+
+</body>

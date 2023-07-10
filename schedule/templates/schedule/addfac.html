@@ -1,0 +1,69 @@
+{% extends 'schedule/adminstart.html' %}
+{% block content %}
+<br><br><br>
+	<div  class="row">
+    <div class="col-sm-2"></div>
+  
+    <div class="col-md-6">
+     <div class="card" style="width: 120%">
+    <div class="card-header text-center text-success" ><h3>ADD&nbsp;FACULTY</h3></div>
+	<form action="{% url 'addfac' %}" method="POST">
+		{% csrf_token %}
+     <div class="card-body text-center">
+     <label class="formspace">FACULTY&nbsp;NAME&nbsp;:</label>
+     <input type="text" placeholder="Enter faculty name" name="fname" required>
+     <br>
+      <label class="formspace">FACULTY&nbsp;ID&nbsp;:</label>
+    <input type="number" placeholder="Enter faculty id" name="fid" required>
+    <br>
+     <label class="formspace">EMAIL&nbsp;:</label>
+    <input type="email" placeholder="Enter email as ...@gvpcew.ac.in" name="fmail" required>
+    <br>
+
+    <label class="formspace">DESIGNATION&nbsp;:</label>
+    <!--<input type="text" placeholder="Enter designation" name="designation" required>-->
+    <select name="designation">
+      <option>ASSISTANT PROFESSOR</option>
+      <option>PROFESSOR</option>
+      <option>DEAN</option>
+      <option>PRINCIPAL</option>
+      <option>VICE PRINCIPAL</option>
+      <option></option>
+    </select>
+    <br>
+    <label class="formspace">MOBILE&nbsp;:</label>
+    <input type="text" placeholder="Enter mobile number" name="phone" pattern="[0-9]{10}" required>
+    <br>
+     <label class="formspace">DEPARTMENT&nbsp;:</label>
+     <select name = "fdept" >
+           <option>CSE</option>
+
+           <option>ECE</option>
+           <option>EEE</option>
+           <option>IT</option>
+         </select>
+   
+    <br>
+    
+    <label class="formspace">STATUS&nbsp;:</label>
+    <select name = "st" >
+           <option>y</option>
+           <option>n</option>
+
+           
+       </select>
+   
+</div>
+<div class="card-footer text-center">
+	 <button class="btn btn-success">ADD&nbsp;FACULTY</button>
+	</div>
+</form>
+<center><form action="{% url 'import_faculty' %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" name="file" accept=".xlsx, .xls">
+  <button type="submit" class="btn btn-success">Import</button>
+</form></center>
+</div>
+</div>
+</div>
+    {% endblock content %}

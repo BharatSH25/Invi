@@ -1,0 +1,24 @@
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} message" role="alert">
+            <span class="message-text">{{ message }}</span>
+            <style>
+                @keyframes fadeOut {
+                    0% { opacity: 1; }
+                    90% { opacity: 1; }
+                    100% { opacity: 0; display: none; }
+                }
+
+                .message {
+                    animation: fadeOut 5s ease-in-out forwards;
+                }
+            </style>
+            <script>
+                setTimeout(function() {
+                    var message = document.querySelector('.message');
+                    message.style.display = 'none';
+                }, 5000);
+            </script>
+        </div>
+    {% endfor %}
+{% endif %}

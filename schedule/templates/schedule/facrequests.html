@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+  
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    
+       <link rel="stylesheet"  href="{% static   'css/sheet1.css' %}">
+     </head>
+
+    <body style="  
+  background-image: linear-gradient(to right,   rgb(118, 219, 209,0.1), rgb(118, 219, 209,1));">
+
+
+      <div class="menubar">
+        
+  <ul>
+    <li style="font-size: 24px;">EXAM-INVIGILATOR ASSIGNMENT SYSTEM</li>
+    <li >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+    <li><a href="{% url 'timetable2' %}">INVIGILATION DUTIES</a></li>
+    <li><a href="{% url 'home' %}">LOGOUT</a></li>
+  </ul>
+  </div>
+  {% include 'schedule/messages.html' %}
+
+<center>
+   <br><br><br>
+    <div class="title">
+      <h1>FACULTY CONSTRAINTS</h1>
+    </div>
+</center>
+    <br>
+<table class="mytable">
+  <tr class="header">
+    <th>FACULTY NAME</th>
+    <th>NOT&nbsp;AVAILABLE&nbsp;ON:</th>
+    
+  </tr>
+  <tbody>
+    {% for i in data %} 
+    <tr>
+      <td data-column="FACULTY NAME">{{i.cname}}</td>
+      <td >
+        <label >{{i.cdate}}</label> 
+      </td>
+    
+  
+   {% endfor %}
+   </tr>
+  </tbody>
+
+</table> 
+</form>
+</div>
+</div>
+</div>
+<center>
+ <a href="{% url 'timetable2' %}" ><button class="btn btn-info" >TIMETABLE</button></a>
+ </center>
+</body>

@@ -1,0 +1,47 @@
+{% extends 'schedule/adminstart.html' %}
+{% block content %}
+<br>
+<table class="mytable">
+  <thead>
+    <tr>
+      <th>EXAM&nbsp;Id</th>
+     <th>EXAM&nbsp;&nbsp;DATE</th>
+     <th>EXAM&nbsp;&nbsp;TIME</th>
+     <th>Invigilator&nbsp;</th>
+     <th>Superintendant&nbsp;</th>
+     <th>ROOMNO</th>
+     <th>SUBJECT</th>
+     <th>DEPARTMENT</th>
+     <th>SEMESTER</th>
+      <th>EDIT</th>
+      <th>DELETE</th>
+    </tr>
+  </thead>
+
+ 
+  <tbody>
+    {% for i in data %} 
+    <tr>
+      <td data-column="EXAM_Id">{{ i.ex.id}}</td>
+      <td data-column="EXAM__DATE">{{ i.ex.exam_date }}</td>
+      <td data-column="TIME">{{ i.ex.exam_stime }} - {{i.ex.exam_etime}}</td>
+      <td data-column="Invigilator&nbsp;1">{{ i.fna1.fname }}</td>
+      <td data-column="Invigilator&nbsp;2">{{ i.fna2}}</td>
+      <td data-column="ROOMNO">{{ i.room.roomno }}</td>
+      <td data-column="SUBJECT">{{ i.ex.subject }}</td>
+      <td data-column="DEPARTMENT">{{ i.room.d }}</td>
+      <td data-column="SEMESTER">{{ i.ex.semester }}</td>
+      
+      <td data-column="EDIT"><a href="{% url 'update' i.id %}"><i class="fa fa-edit" style="font-size: 25px;color:#0d7377" ></i></a></td>
+      <td data-column="DELETE"><a href="{% url 'delete' i.id %}"><i class="fa fa-trash"  style="font-size:25px;color:#ff414d"></a></i></td>
+      </tr>
+        {% endfor %}
+    </tbody>
+   
+     </table>
+  
+<center>
+<a href="{% url 'timetable4' %}" <button class="btn btn-secondary" >PREVIEW&nbsp;TO&nbsp;DOWNLOAD</button></a>&nbsp;&nbsp;&nbsp;
+<a href="{% url 'send_email' %}" <button class="btn btn-success" >SEND&nbsp;EMAIL</button></a>
+</center>
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends 'schedule/adminstart.html' %}
+{% block content %}
+<br><br><br>
+<div  class="row">
+  <div class="col-sm-2"></div>
+  
+  <div class="col-md-6" style="margin-right: 75px">
+   <div class="card" >
+      <div class="card-header text-center text-primary" >
+        <h4>Enter exam ID to assign faculty:</h4>(Or go to CREATE EXAM to create new exam)</div>
+
+		 <form action="{% url 'adminpage' %}" method="POST">
+		 	{% csrf_token %}
+		 	<div class="card-body text-center">
+		 		<label>EXAM&nbsp;ID:&nbsp;</label>
+          <input type="number" name="id">
+          &nbsp;<br><br><button class="btn btn-dark">Continue-></button>
+          <button class="btn btn-dark" formaction="{% url 'automatic' %}">Go to Automatic</button>
+      </form>
+  </div>
+</div>
+    </div>
+    <br><br><br>
+ 
+
+  
+  <div class="col-lg-3">    <!-----md-6,12-->
+  	<h4>AVAILABLE EXAM ID'S</h4>
+   <div class="card">
+
+  	{% for i in data %}
+   
+       &nbsp;{{i.id}}&nbsp;----&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      {{i.exam_date}}&nbsp;&nbsp;
+      {{i.exam_stime}}-{{i.exam_etime}}<br>
+    
+    {% endfor %} 
+ </div>
+</div>
+{% endblock content %}

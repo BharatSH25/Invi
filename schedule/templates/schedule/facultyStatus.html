@@ -1,0 +1,134 @@
+{% extends 'schedule/adminstart.html' %}
+{% load static %}
+{% block styles %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+     <!---font awesome icons--->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style type="text/css">
+.odd{
+    width: 39px;
+    height: 45px;
+    border-style: hidden; 
+    
+    border-radius: 5px;
+    background-color: #33BAFF;
+
+  }
+</style>
+  <link rel="stylesheet" type="text/css" href="{% static   'css/MystylE2.css' %}">
+
+{% endblock %}
+{%  block content %}
+<br>
+<div class="search-btn">
+  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+  
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for faculty name..">
+  <button style="font-size:25px;border-color:orange;">
+    <i class="fa fa-search"></i>
+  </button>
+</div>
+<div  class="row">
+     <div class="col-sm-2"></div>
+    <div class="col-md-6">
+     <div class="card" style="margin-right: 20px">
+    <div class="card-header text-center text-info" ><h5>UPDATE FACULTY STATUS</h5></div>
+<table id="myTable">
+  <tr>
+      <th>NAME</th>
+      <th>ID</th>
+      <th>STATUS</th>
+      <th>CHANGE </th>
+    </tr>
+
+    {% for i in data %}
+    <tr>
+      <form action="{% url 'facstatus' %}" method="POST">
+          {% csrf_token %} 
+           <td>{{ i.fname }}</td>
+           <td>{{ i.faculty_id }}
+           <input size="6" style="visibility: hidden;" type="number" name="id" value="{{ i.faculty_id }}" style="color:blue"></td>
+     
+          <td><button class="btn btn-light" style="font-size: 20px">{{i.faculty_status}}</button></td>
+          <td><button class="btn btn-info">Change</button></td>
+     </form>
+      </td>
+      
+    </tr>
+    {% endfor %}
+        </table>
+
+        </div>
+  </div>
+</div>
+
+       
+
+<div class="drop">
+  <ul class="nav1">
+    <li><a href="#">SCHEDULES</a>
+      <ul>
+        <li><a href="#">CSE</a>
+          <ul>
+            {% for i in x %}
+            <li><a href="{% url 'showtt' i.Section %}">{{ i.Section  }}</a></li>
+            {% endfor %}
+
+          </ul>
+        </li>
+        <li><a href="#">IT</a>
+          <ul>{% for i in y %}
+            <li><a href="{% url 'showtt' i.Section %}">{{ i.Section  }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li><a href="#">ECE</a>
+          <ul>
+            {% for i in z %}
+            <li><a href="{% url 'showtt' i.Section %}">{{ i.Section  }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li><a href="#">EEE</a>
+          <ul>
+            {% for i in w %}
+            <li><a href="{% url 'showtt' i.Section %}">{{ i.Section  }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+  
+<script>
+	  var cells = document.getElementById("myTable").getElementsByTagName("button");
+for (var i = 0; i < cells.length; i++) {
+    if (cells[i].textContent == "y") {
+        cells[i].className = "odd";
+    }
+}
+
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+{% endblock content %}

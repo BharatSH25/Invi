@@ -1,0 +1,79 @@
+{% extends 'schedule/adminstart.html' %}
+{% block styles %}
+{% endblock %}
+  {% block content %}
+    <br><br>
+	  <div  class="row">
+     <div class="col-sm-1"></div>
+  
+    <div class="col-md-9">
+     <div class="card" style="width:115%;margin-right: 20px">
+    <div class="card-header text-center text-info " ><h4>CREATE AN EXAM</h4></div>
+    <!--<div class="card-body">-->
+	   <center><form action="{% url 'import_exam' %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" name="file" accept=".xlsx, .xls">
+  <button type="submit" class="btn btn-success">Import</button>
+</form></center>
+
+   
+<br>
+<table class="mytable">
+
+    <tr>
+      <th>EXAM&nbsp;ID</th>
+      <th>EXAM&nbsp;DATE</th>
+      <th>EXAM&nbsp;START</th>
+      <th>EXAM&nbsp;END</th>
+      <th>SEMESTER  </th>
+      <th>SUBJECT </th>
+      <th>DEPARTMENT</th>
+      <th>CHANGE </th>
+    </tr>
+
+    {% for i in data %}
+    <tr>
+     
+      <td >{{ i.id }}</td>
+      <td >{{ i.exam_date }}</td>
+      <td >{{ i.exam_stime }}</td>
+      <td >{{ i.exam_etime }}</td>
+      <td>{{ i.semester }}</td>
+      <td>{{ i.subject }}</td>
+      <td>{{i.dept}}</td>
+      <td><a href="{% url 'dele' i.id %}"><button class="btn btn-danger">DELETE&nbsp;</button></a></td>
+    </tr>
+    {% endfor %}
+  <tr>
+     <form action="{% url 'addexam' %}" method="POST">
+    {% csrf_token %}
+      <td><input style="width:80px" type="text"  name="id" placeholder="id"></td>
+      <td><input style="width:150px" type="date" name="date" placeholder="Enter exam date"></td>
+      <td><input style="width:170px" type="time" name="stime" placeholder="Enter start time">
+      
+      </td>
+     
+       <td><input style="width:165px" type="time" name="etime" placeholder="Enter end time ('1-2') "></td>
+      
+       
+       <td><input style="width:180px" type="text" name="sem" placeholder="enter semester "></td>
+       <td><input style="width:180px" type="text" name="sub" placeholder="enter subject "></td>
+       
+       <td><select name = "dept" id ="dept">
+        <option>CSE</option>
+
+        <option>ECE</option>
+        <option>EEE</option>
+        <option>IT</option>
+        <option>MCA</option>
+      </select></td>
+      <td><button class="btn btn-info">ADD&nbsp;EXAM</button></td>
+    </tr>
+</table>
+</form>
+</div>
+</div>
+</div>
+{% endblock content %}
+
+

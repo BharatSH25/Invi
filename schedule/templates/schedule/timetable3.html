@@ -1,0 +1,59 @@
+{% extends 'schedule/studstart.html' %}
+{% block content %}
+<br>
+<div id="tab">
+<table class="mytable">
+  <center>
+    <h3>GAYATRI VIDYA PARISHAD COLLEGE OF ENGINEERING FOR WOMEN</h3>
+    <h3>MADHURWADA::VISAKHAPATNAM</h3>
+    <h3 >{{ h.heading }} </h3>
+  </center>
+  <thead>
+    <tr>
+     <th>EXAM&nbsp;&nbsp;DATE</th>
+     <th>EXAM&nbsp;TIME</th>
+     <th>SUBJECT</th>
+     
+     <th>SEMESTER</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in data %} 
+    <tr>
+      <td >{{ i.exam_date }}</td>
+      <td >{{ i.exam_time }}</td> 
+      <td >{{ i.subject }}</td>
+     
+      <td data-column="SEMESTER">{{ i.semester }}</td>  
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Head&nbsp;of&nbsp;Department:______________</p>
+</div>
+<center>
+<button id="btnExport" class="btn btn-success" onclick="myApp.printTable()">DOWNLOAD</button>
+</center>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script>
+      var myApp = new function() {
+        this.printTable = function () {
+            var tab = document.getElementById('tab');
+            var style = "<style>";
+            style = style + "table {width: 100%; font: 17px Calibri;}";
+            style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+            style = style + "padding: 2px 3px; text-align: center;}";
+            style = style + "</style>";
+            var win = window.open('', '', 'height=700,width=700');
+            
+            win.document.write(style);
+            win.document.write(tab.outerHTML);
+            win.document.close();
+            win.print();
+        }
+    }
+</script>
+
+    </script>
+{% endblock content %}
