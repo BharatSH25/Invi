@@ -18,7 +18,8 @@ from django.urls import path
 from schedule import views
 
 urlpatterns = [
-    path('',views.home,name='home'),
+    #path('',views.home,name='home'),
+    path('',views.test_celery,name='test_celery'),
     path('admin/', admin.site.urls),
     path('home/',views.home,name='home'),
     path('first/',views.first,name='first'),

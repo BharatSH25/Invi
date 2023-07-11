@@ -135,3 +135,21 @@ EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=587
 EMAIL_HOST_USER='surajh23f@gmail.com@gmail.com'
 EMAIL_HOST_PASSWORD='**********'
+
+
+
+
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379'  # Replace with your broker URL (e.g., RabbitMQ, Redis, etc.)
+CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite3'  # Replace with your result backend
+CELERY_RESULT_SERIALIZER='json'
+CELERY_TIMEZONE='Asia/Kolkata'
+# Celery Beat settings (optional)
+'''CELERY_BEAT_SCHEDULE = {
+    'example-task': {
+        'task': 'yourapp.tasks.example_task',
+        'schedule': 10.0,  # Set the schedule interval in seconds
+    },
+}'''
+

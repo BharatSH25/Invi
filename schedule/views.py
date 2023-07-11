@@ -723,8 +723,11 @@ def import_faculty(request):
 			return render(request,'schedule/addfac.html')
 	return render(request,'schedule/addfac.html')
 		
-
-
+from .tasks import test_func
+def test_celery(request):
+	test_func.delay()
+	return HttpResponse("DONE")
+	
 
 
 
