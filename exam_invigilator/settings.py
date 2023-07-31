@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -133,8 +133,8 @@ STATIC_URL = '/static/'
 EMAIL_USE_TLS=True
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=587
-EMAIL_HOST_USER='surajh23f@gmail.com@gmail.com'
-EMAIL_HOST_PASSWORD='**********'
+EMAIL_HOST_USER='bharatharikant25@gmail.com'
+EMAIL_HOST_PASSWORD='iplmfzpwexptfipa'
 
 
 
@@ -144,6 +144,8 @@ EMAIL_HOST_PASSWORD='**********'
 CELERY_BROKER_URL = 'redis://localhost:6379'  # Replace with your broker URL (e.g., RabbitMQ, Redis, etc.)
 CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite3'  # Replace with your result backend
 CELERY_RESULT_SERIALIZER='json'
+CELERY_TASK_SERIALIZER='json'
+CELERY_ACCEPT_CONTENT=['application/json']
 CELERY_TIMEZONE='Asia/Kolkata'
 # Celery Beat settings (optional)
 '''CELERY_BEAT_SCHEDULE = {

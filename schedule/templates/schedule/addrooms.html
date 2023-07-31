@@ -1,0 +1,105 @@
+{% extends 'schedule/main.html' %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+<div class="head-title">
+    <div class="left">
+        <h1>ADD ROOM HERE</h1>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#"></a>
+            </li>
+            
+            <!--<li>
+                <a class="active" href="#">Home</a>
+            </li>-->
+        </ul>
+    </div>
+    <a href="{% url 'roomstatus' %}" class="btn-download">
+        
+        <span class="text">Change room status</span>
+    </a>
+</div>
+
+<ul class="box-info">
+    <li>
+        <div style="margin: auto;" >
+        
+        <form action="{% url 'addroom' %}" method="POST">
+            {% csrf_token %}
+         <div>
+         <label class="formspace">ROOM&nbsp;NO&nbsp;:</label>
+         <input type="text" placeholder="Enter roomno" name="rno" required>
+         <br>
+        <label class="formspace">ROOM&nbsp;CAPACITY&nbsp;:</label>
+        <input type="number" placeholder="Enter room capacity" name="rcd" required>
+        <br>
+        <label class="formspace">DEPARTMENT&nbsp;:</label>
+        <select name = "department" >
+              <option>CSE</option>
+    
+              <option>ECE</option>
+              <option>EEE</option>
+              <option>IT</option><option>MCA</option>
+            </select>
+      
+       <br>
+        <label>STATUS&nbsp;:</label>
+        <select name = "st" >
+               <option>y</option>
+               <option>n</option>
+    
+               
+        </select>
+       
+       <br>
+    </div>
+    <div>
+         <button class="btn btn-success">ADD&nbsp;ROOM</button>
+        </div>
+    </form>
+    </div>
+    </li>
+</ul>
+<style>
+    input[type=text], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    input[type=number],select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    button {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+    
+    div {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    </style>
+{% endblock content %}

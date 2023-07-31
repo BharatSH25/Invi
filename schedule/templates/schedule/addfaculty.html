@@ -1,0 +1,104 @@
+{% extends 'schedule/main.html' %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+
+<div class="head-title">
+    <div class="left">
+        <h1>MANAGE FACULTY</h1>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#"></a>
+            </li>
+          
+            
+        </ul>
+    </div>
+    <a href="#" class="">
+        <i class='' ></i>
+        <span class="text"><form action="{% url 'import_faculty' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file" accept=".xlsx, .xls">
+            <button type="submit" style="
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;">Import</button>
+          </form></span>
+    </a>
+</div>
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>ADD FACULTY</h3>
+            
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>FACULTY ID</th>
+                    <th>NAME</th>
+                    <th>DESIGNATION</th>
+                    <th>EMAIL</th>
+                    <th>PHONE  </th>
+                    
+                    <th>DEPARTMENT</th>
+                    <th>CHANGE </th>
+                  </tr>
+            </thead>
+            <tbody>
+                
+    {% for i in data %}
+    <tr>
+     
+      <td >{{ i.faculty_id }}</td>
+      <td >{{ i.fname }}</td>
+      <td >{{ i.designation }}</td>
+      <td >{{ i.email}}</td>
+      <td>{{ i.phone }}</td>
+      
+      <td>{{i.dept}}</td>
+      <td><a href="{% url 'deletefaculty' i.fname %}"><i class="bx bx-trash"  style="font-size:25px;color:#ff414d"></a></i></a></td>
+    </tr>
+    {% endfor %}
+  <tr>
+     <form action="{% url 'addfac' %}" method="POST">
+    {% csrf_token %}
+      <td><input type="number" placeholder="Enter faculty id" name="fid" required></td>
+      <td><input type="text" placeholder="Enter faculty name" name="fname" required></td>
+      <td><select name="designation">
+        <option>ASSISTANT PROFESSOR</option>
+        <option>PROFESSOR</option>
+        <option>DEAN</option>
+        <option>PRINCIPAL</option>
+        <option>VICE PRINCIPAL</option>
+        <option></option>
+      </select>
+      
+      </td>
+     
+       <td><input type="email" placeholder="Enter email as ...@gvpcew.ac.in" name="fmail" required></td>
+      
+       
+       <td><input type="text" placeholder="Enter mobile number" name="phone" pattern="[0-9]{10}" required></td>
+       <td><select name = "fdept" >
+        <option>CSE</option>
+
+        <option>ECE</option>
+        <option>EEE</option>
+        <option>IT</option>
+        <option>MCA</option>
+      </select>
+</td>
+       
+       
+      <td><button style="border-radius: 3px; background: green; padding: 10px 20px; color: white; font-weight: bold; border: none;">ADD</button></td>
+    </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% endblock content %}

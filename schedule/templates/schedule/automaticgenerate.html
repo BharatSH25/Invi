@@ -1,0 +1,65 @@
+{% extends 'schedule/main.html' %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+
+<div class="head-title">
+    <div class="left">
+        <h1>Automatic</h1>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#"></a>
+            </li>
+            <li><i class='bx bx-chevron-right' ></i></li>
+            
+        </ul>
+    </div>
+    <a href="{% url 'save_automatically' %}" class="btn-download">
+      
+        <span class="text">PROCEEDS</span>
+    </a>
+</div>
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>GENERATED DUTIES</h3>
+           
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>EXAM ID</th>
+                    <th>EXAM DATE</th>
+                    <th>EXAM TIME</th>
+                    <th>INVIGILATOR</th>
+                    <th>SUPERINTENDENT </th>
+                    <th>DEPUTY CHIEFS </th>
+                    <th>ROOM</th>
+                    <th>DEPARTMENT </th>
+                  </tr>
+            </thead>
+            <tbody>
+                
+                {% for i in data %} 
+                <tr>
+                  <td data-column="EXAM_Id">{{ i.id}}</td>
+                  <td data-column="EXAM__DATE">{{ i.exam_date }}</td>
+                  <td data-column="TIME">{{ i.exam_stime }}--{{i.exam_etime}}</td>
+                  <td data-column="Invigilator&nbsp;1">{{ i.Invigilator }}</td>
+                  <td data-column="Invigilator&nbsp;2">{{ i.Superintendent}}</td>
+                  <td data-column="Deputy">{{i.Deputy}}</td>
+                  <td data-column="ROOMNO">{{ i.Room }}</td>
+                  <!--<td data-column="SUBJECT">{{ i.ex.subject }}</td>-->
+                  <td data-column="DEPARTMENT">{{ i.Department }}</td>
+                  <!--<td data-column="SEMESTER">{{ i.ex.semester }}</td>-->
+                  
+                  <!--<td data-column="EDIT"><a href="{% url 'automatic'  %}"><i class="fa fa-edit" style="font-size: 25px;color:#0d7377" ></i></a></td>
+                  <td data-column="DELETE"><a href="{% url 'automatic'  %}"><i class="fa fa-trash"  style="font-size:25px;color:#ff414d"></a></i></td>-->
+                  </tr>
+                    {% endfor %}
+  
+            </tbody>
+        </table>
+    </div>
+
+    {% endblock content %}

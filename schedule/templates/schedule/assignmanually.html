@@ -1,0 +1,126 @@
+{% extends 'schedule/main.html' %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+<ul class="box-info" >
+    <li>
+        <div  style="width:100%">
+                <div><h4>ASSIGN FACULTY HERE</h4></div>
+               <form action="{% url 'assignfac' x.id %}" method="POST">
+                    {% csrf_token %}
+                <div class="card-body text-center">
+                      <h3>ENTERED EXAM ID IS:&nbsp;{{ x.id }}</h3>
+                      <label>SUBJECT:</label>{{ x.subject }}<br>
+                      <label >DEPARTMENT:</label>{{ x.dept }}<br>
+                      
+                            
+                      <br>
+                       <label class="inden">ROOM : </label>
+                        
+                              <select name="room" id="id">
+                                <option selected></option>
+                                {% for i in z %}
+                              <option >{{ i.roomno}}</option>
+                              {% endfor %}
+                              </select>
+                     <br>
+          
+                    <label class="inden">FACULTY&nbsp;1:  </label> 
+                          
+                                <select name="fna1" id="id">
+                                   
+                                   {% for i in y %}
+                                   <option >{{ i.fname }}</option>
+                                  {% endfor %}
+                                </select>
+                      <br>
+                      <label class="inden">SUPERINTENDENT&nbsp;:  </label> 
+                          
+                                <select name="fna2" id="id">
+                                 <!---<option selected></option>-->
+                                   {% for i in s %}
+                                   <option >{{ i.fname }}</option>
+                                  {% endfor %}
+                                </select>
+                      <br>
+                      <label class="inden">DEPUTY CHIEF&nbsp;:  </label> 
+                          
+                      <select name="fna3" id="id">
+                       <!---<option selected></option>-->
+                         {% for i in dc %}
+                         <option >{{ i.fname }}</option>
+                        {% endfor %}
+                      </select>
+            <br>
+
+             <br>
+                 </div>
+              <div  >
+                <button id="add">ADD</button>&nbsp &nbsp
+                <a href="{% url 'adminpage' %}" ><button id="back"class="btn btn-warning" >Go&nbsp;Back</button></a>
+                
+               
+              </div>
+                 
+              </form>
+            
+            
+           </div>
+            
+    </li>
+    
+</ul>
+<style>
+  input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: white;
+  }
+  input[type=number],select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  #add {
+    width: 30%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  #back {
+    width: 30%;
+    background-color: #df9c5d;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  
+  div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+  </style>
+
+{% endblock content%}

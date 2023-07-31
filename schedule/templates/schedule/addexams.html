@@ -1,0 +1,97 @@
+{% extends 'schedule/main.html' %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+
+<div class="head-title">
+    <div class="left">
+        <h1>MANAGE EXAMS</h1>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#"></a>
+            </li>
+           
+            
+        </ul>
+    </div>
+    <a href="#" class="">
+        <i class='' ></i>
+        <span class="text"><form action="{% url 'import_faculty' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file" accept=".xlsx, .xls">
+            <button type="submit" class="btn btn-success"
+            style="
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;">Import</button>
+          </form></span>
+    </a>
+</div>
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>ADD EXAM</h3>
+           
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>EXAM&nbsp;ID</th>
+                    <th>EXAM&nbsp;DATE</th>
+                    <th>EXAM&nbsp;START</th>
+                    <th>EXAM&nbsp;END</th>
+                    <th>SEMESTER  </th>
+                    <th>SUBJECT </th>
+                    <th>DEPARTMENT</th>
+                    <th>CHANGE </th>
+                  </tr>
+            </thead>
+            <tbody>
+                
+    {% for i in data %}
+    <tr>
+     
+      <td >{{ i.id }}</td>
+      <td >{{ i.exam_date }}</td>
+      <td >{{ i.exam_stime }}</td>
+      <td >{{ i.exam_etime }}</td>
+      <td>{{ i.semester }}</td>
+      <td>{{ i.subject }}</td>
+      <td>{{i.dept}}</td>
+      <td><a href="{% url 'dele' i.id %}"><i class="bx bx-trash"  style="font-size:25px;color:#ff414d"></a></i></a></td>
+    </tr>
+    {% endfor %}
+  <tr>
+     <form action="{% url 'addexam' %}" method="POST">
+    {% csrf_token %}
+      <td><input style="width:80px" type="text"  name="id" placeholder="id"></td>
+      <td><input style="width:150px" type="date" name="date" placeholder="Enter exam date"></td>
+      <td><input style="width:170px" type="time" name="stime" placeholder="Enter start time">
+      
+      </td>
+     
+       <td><input style="width:165px" type="time" name="etime" placeholder="Enter end time ('1-2') "></td>
+      
+       
+       <td><input style="width:180px" type="text" name="sem" placeholder="enter semester "></td>
+       <td><input style="width:180px" type="text" name="sub" placeholder="enter subject "></td>
+       
+       <td><select name = "dept" id ="dept">
+        <option>CSE</option>
+
+        <option>ECE</option>
+        <option>EEE</option>
+        <option>IT</option>
+        <option>MCA</option>
+      </select></td>
+      <td><button style="border-radius: 3px; background: green; padding: 10px 20px; color: white; font-weight: bold; border: none;">ADD</button></td>
+    </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% endblock content %}

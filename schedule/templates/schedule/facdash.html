@@ -1,0 +1,89 @@
+{% extends 'schedule/facultytemplate.html' %}
+{% block styles %}
+{% endblock %}
+{% block name %}
+{{name}}
+{% endblock name %}
+
+{% block content %}
+
+
+
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>INVIGILATION DUTIES</h3>
+						
+					</div>
+					<table>
+						<thead>
+							<tr>
+                                <th>ID</th>
+                                <th>EXAM DATE</th>
+                                <th>EXAM TIME</th>
+                                <th>Invigilator</th>
+                                <th>Superintendent</th>
+                                <th>Deputy Chief</th>
+                                
+                                <th>ROOMNO</th>
+                                <th>SUBJECT</th>
+                                <th>DEPARTMENT</th>
+                                
+                                  
+                               </tr>
+						</thead>
+						<tbody>
+							{% for i in data %} 
+    
+    <tr>
+        <td>{{i.ex.id}}</td>
+      <td >{{ i.ex.exam_date }}</td>
+      <td data-column="TIME">{{ i.ex.exam_stime }}-{{i.ex.exam_etime}}</td>
+      <td data-column="Invigilator&nbsp;1">{{ i.fna1.fname }}</td>
+      <td>{{i.fna2}}</td>
+      <td>{{i.fna3}}</td>
+      
+      <td data-column="ROOMNO">{{ i.room.roomno }}</td>
+      <td data-column="SUBJECT">{{ i.ex.subject }}</td>
+      <td data-column="DEPARTMENT">{{ i.room.d }}</td>
+      
+     
+    </tr>
+    {% endfor %}
+						</tbody>
+					</table>
+				</div>
+                
+
+                {% endblock content %}
+				<!--<div class="todo">
+					<div class="head">
+						<h3>Todos</h3>
+						<i class='bx bx-plus' ></i>
+						<i class='bx bx-filter' ></i>
+					</div>
+					<ul class="todo-list">
+						<li class="completed">
+							<p>Todo List</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="completed">
+							<p>Todo List</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="not-completed">
+							<p>Todo List</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="completed">
+							<p>Todo List</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="not-completed">
+							<p>Todo List</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+					</ul>
+				</div>
+			</div>-->
+		

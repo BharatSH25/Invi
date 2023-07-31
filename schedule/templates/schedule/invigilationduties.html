@@ -1,0 +1,109 @@
+{% extends 'schedule/main.html' %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+
+<div class="head-title">
+    <div class="left">
+        <h1>INVIGILATION DUTIES</h1>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#"></a>
+            </li>
+            
+            
+        </ul>
+    </div>
+    <button class="btn-download" id="download-link" onclick="myApp.printTable()">
+        <i class='bx bxs-cloud-download' ></i>
+        <span class="text">Download PDF</span>
+    </button>
+    <a href="{% url 'send_email' %}" class="btn-download">
+        <i class="bx bx-envelope"></i>
+        <span class="text">Send Mail</span>
+    </a>
+    <a href="{% url 'schedule_emails_tosend' %}" class="btn-download">
+        <i class="bx bx-calendar-event"></i>
+        <span class="text">Reminder</span>
+    </a>
+</div>
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>DUTIES</h3>
+           
+        </div>
+        <div id="down">
+        <table>
+            <thead>
+                <tr>
+                    <th>EXAM Id</th>
+                   <th>DATE</th>
+                   <th>TIME</th>
+                   <th>Invigilator</th>
+                   <th>Superintendant</th>
+                   <th>Deputy Chief</th>
+                   <th>ROOMNO</th>
+                   <th>SUBJECT</th>
+                   <th>DEPARTMENT</th>
+                   <th>SEMESTER</th>
+                    <th>EDIT</th>
+                    <th>DELETE</th>
+                  </tr>
+            </thead>
+            <tbody>
+                
+                {% for i in data %} 
+                <tr>
+                  <td data-column="EXAM_Id">{{ i.ex.id}}</td>
+                  <td data-column="EXAM__DATE">{{ i.ex.exam_date }}</td>
+                  <td data-column="TIME">{{i.ex.exam_stime}}-{{i.ex.exam_etime}}</td>
+                  <td data-column="Invigilator&nbsp;1">{{ i.fna1.fname }}</td>
+                  <td data-column="Invigilator&nbsp;2">{{ i.fna2}}</td>
+                  <td>{{i.fna3}}</td>
+                  <td data-column="ROOMNO">{{ i.room.roomno }}</td>
+                  <td data-column="SUBJECT">{{ i.ex.subject }}</td>
+                  <td data-column="DEPARTMENT">{{ i.room.d }}</td>
+                  <td data-column="SEMESTER">{{ i.ex.semester }}</td>
+                  
+                  <td data-column="EDIT"><a href="{% url 'update' i.ex.id %}"><i class="bx bx-edit" style="font-size: 25px;color:#0d7377" ></i></a></td>
+                  <td data-column="DELETE"><a href="{% url 'delete' i.id %}"><i class="bx bx-trash"  style="font-size:25px;color:#ff414d"></a></i></td>
+                  </tr>
+                    {% endfor %}
+  
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  <script>
+      var myApp = new function() {
+    this.printTable = function () {
+        // Clone the table to remove the "EDIT" and "DELETE" columns
+        var tab = document.getElementById('down').cloneNode(true);
+
+        // Remove the "EDIT" and "DELETE" columns from the cloned table
+        var rows = tab.getElementsByTagName('tr');
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].deleteCell(-1); // Remove last cell (EDIT)
+            rows[i].deleteCell(-1); // Remove last cell (DELETE)
+        }
+
+        var style = "<style>";
+        style += "table {width: 100%; font: 17px Calibri; border-collapse: collapse;}";
+        style += "table, th, td {border: solid 1px #DDD; padding: 2px 3px; text-align: center;}";
+        style += "</style>";
+
+        var win = window.open('', '', 'height=700,width=700');
+        win.document.write('<html><head>' + style + '</head><body>' + tab.outerHTML + '</body></html>');
+        win.document.close();
+        win.print();
+    }
+}
+
+</script>
+    
+
+    {% endblock content %}

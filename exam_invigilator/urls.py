@@ -19,9 +19,10 @@ from schedule import views
 
 urlpatterns = [
     #path('',views.home,name='home'),
-    path('',views.test_celery,name='test_celery'),
+    
     path('admin/', admin.site.urls),
-    path('home/',views.home,name='home'),
+    path('',views.home,name='home'),
+     path('schedule_emails_tosend/',views.schedule_emails_tosend,name='schedule_emails_tosend'),
     path('first/',views.first,name='first'),
     path('feedback/',views.feedback,name='feedback'),
     path('timetable/',views.timetable,name='timetable'),
@@ -39,16 +40,18 @@ urlpatterns = [
     path('automatic/',views.automatic,name='automatic'),
     path('import_exam/',views.import_exam,name='import_exam'),
     path('import_faculty/',views.import_faculty,name='import_faculty'),
-    path('save_automatic/',views.save_automatic,name='save_automatic'),
+    path('save_automatically/',views.save_automatically,name='save_automatically'),
 
     path('delete/<int:cid>/',views.delete,name='delete'),
     path('update/<int:cid>',views.update,name="update"),
     path('dele/<int:exid>/',views.dele,name="dele"),
+    path('deletefaculty/<str:fid>',views.deletefaculty,name="deletefaculty"),
 
     path('timetable2/',views.timetable2,name='timetable2'),
     path('timetable3/',views.timetable3,name='timetable3'),
     path('timetable4/',views.timetable4,name='timetable4'),
     path('timetable5/<int:fid>/',views.timetable5,name='timetable5'),
+    path('dashboard/',views.dashboard,name='dashboard'),
 
     path('request/',views.request,name='request'),
     path('facstart/',views.facstart,name='facstart'),
@@ -56,7 +59,7 @@ urlpatterns = [
     path('facconstraints',views.facconstraints,name='facconstraints'),
     path('delet/<int:id>/',views.delet,name="delet"),
 
-     path('addtt',views.addtt,name="addtt"),
+    path('addtt',views.addtt,name="addtt"),
      path('deltt/<str:name>',views.deltt,name="deltt"),
      path('showtt/<str:name>/',views.showtt,name="showtt"),
 

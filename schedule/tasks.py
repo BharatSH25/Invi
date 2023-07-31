@@ -1,8 +1,14 @@
 from celery import shared_task
+from django.core.mail import send_mail
 
-@shared_task(bind=True)
-def test_func(self):
-    print("TASK IS EXECUTING")
+
+
+@shared_task
+def send_scheduled_email(subject, message, recipient):
+    try:
+        send_mail(subject, message, 'bharatharikant25@gmail.com', [recipient])
+    except Exception as e:
+        print(str(e))
 
 '''
 from myapp.tasks import send_scheduled_email

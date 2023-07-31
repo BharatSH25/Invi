@@ -1,0 +1,101 @@
+{% extends 'schedule/main.html' %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+<ul class="box-info" >
+    <li>
+        
+          
+            
+             <div class="card" style=" margin: auto 20% auto 20%;">
+            <div class="card-header text-center text-success " ><h4>SEND&nbsp;EMAIL</h4></div>
+            <form action="{% url 'send_email' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+             
+             <label>To&nbsp;Mail:</label>
+             
+             
+             <a href="#">{{ data }}</a>
+             
+             <br>
+              <label>Subject:</label><br>
+             <textarea  class="styles" name="sub" rows="2" cols="50" placeholder="enter subject" required></textarea>
+            <br>
+            <label>Message:</label><br>
+            <textarea  class="styles" name="message" rows="5" cols="50" placeholder="body of email"></textarea>
+            
+            <br><br>
+          
+            
+            <label>File:</label>&nbsp;
+            <input type="file" name="file" required>
+           
+        
+        <div class="card-footer text-center">
+             <button class="btn btn-success" id="add">SEND</button>&nbsp;&nbsp;
+              <a href="{% url 'timetable' %}" <button class="btn btn-warning" >CANCEL</button></a>
+           
+            </div>
+        </form>
+        </div>
+        
+        
+            
+    </li>
+    
+</ul>
+<style>
+    input[type=text], textarea,select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      background-color: white;
+    }
+    input[type=number],select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    #add {
+      width: 30%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #back {
+      width: 30%;
+      background-color: #df9c5d;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+    
+    div {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+     
+    }
+    </style>
+
+{% endblock content%}

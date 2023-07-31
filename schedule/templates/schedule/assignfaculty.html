@@ -1,0 +1,88 @@
+{% extends 'schedule/main.html' %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+
+<div class="head-title">
+    <div class="left">
+        <h1>ASSIGN FACULTY</h1>
+        
+    </div>
+    
+    
+    <!--<a href="#" class="btn-download">
+        <i class='bx bxs-cloud-download' ></i>
+        <span class="text">Download PDF</span>
+    </a>-->
+</div>
+<ul class="box-info">
+    <li style="background-color:rgb(190, 245, 255);">
+        <div id="inner" style="border-radius: 20px;  text-align: center; padding:50px 20px 50px 20px;margin:auto auto auto auto">
+                <div class="card-header text-center text-primary" >
+                  <h4>Enter exam ID to assign faculty:</h4>(Or go to CREATE EXAM to create new exam)</div>
+          
+                   <form action="{% url 'adminpage' %}" method="POST">
+                       {% csrf_token %}
+                       <div class="card-body text-center">
+                           <label>EXAM&nbsp;ID:&nbsp;</label>
+                    <input type="text" name="id">
+                    &nbsp;<br><br><button style="border-radius: 3px; background: green; padding: 10px 20px; color: white; font-weight: bold; border: none;">Continue -&gt;</button>
+
+                    <button style="border-radius: 3px; padding: 10px 20px; color: white; font-weight: bold; border: none; background: orange;"><a href="{% url 'automatic' %}" >Generate Automatically</a></button>
+
+                </form>
+            </div>
+              
+           
+          
+            
+            
+    </li>
+  <!--  <li>
+        <div class="col-lg-3">
+            <h4>AVAILABLE EXAM ID'S</h4>
+         <div class="card">
+      
+            {% for i in data %}
+         
+             &nbsp;{{i.id}}&nbsp;----&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {{i.exam_date}}&nbsp;&nbsp;
+            {{i.exam_stime}}-{{i.exam_etime}}<br>
+          
+          {% endfor %} 
+       </div>
+      </div>   
+    </li>-->
+<li >
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>Available Exams</h3>
+           
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %} 
+                <tr>
+                    <td>{{ i.id }}</td>
+                    <td> {{i.exam_date}}</td>
+                    <td>{{ i.exam_stime }} - {{i.exam_etime}}</td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</li>
+</ul>
+
+{% endblock content%}

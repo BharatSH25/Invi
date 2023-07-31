@@ -1,0 +1,128 @@
+{% extends 'schedule/main.html' %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+<ul class="box-info" >
+    <li>
+        <div class="card-header text-center text-info" >
+            <h4>UPDATE HERE</h4>
+        <form action="{% url 'update' x.id %}" method="POST">
+             {% csrf_token %}
+         
+               <h3>ENTERED EXAM ID IS:&nbsp;{{ x.id }}</h3>
+                     
+               <br>
+                <label class="inden">ROOM : </label>
+                 
+                       <select name="room"  id="id">
+                         <option value="{{data.room.roomno}}" selected>{{data.room.roomno}}</option>
+                         {% for i in z %}
+                       <option>{{ i.roomno}}</option>
+                       {% endfor %}
+                       </select>
+              <br>
+   
+             <label class="inden">FACULTY&nbsp;1:  </label> 
+                   
+                         <select name="fname"  id="id">
+                             <option value="{{data.fna1.fname}}" selected>{{ data.fna1.fname }}</option>
+                            {% for i in y %}
+                            <option >{{ i.fname }}</option>
+                           {% endfor %}
+                         </select>
+               <br>
+               <label class="inden">SUPERINTENDENT&nbsp;2:  </label> 
+                   
+                         <select name="fna2"   id="id">
+                            <option value="{{data.fna2}}" selected>{{data.fna2}}</option>
+                            {% for i in ds %}
+                            <option >{{ i.fname }}</option>
+                           {% endfor %}
+                         </select>
+               <br>
+   
+               <label class="inden">DEPUTY&nbsp;2:  </label> 
+                   
+                         <select name="fna3"   id="id">
+                            <option value="{{data.fna3}}" selected>{{data.fna3}}</option>
+                            {% for i in dd %}
+                            <option >{{ i.fname }}</option>
+                           {% endfor %}
+                         </select>
+               <br>
+   
+        
+       
+         
+         <a href="{% url 'timetable' %}" <button class="btn btn-secondary" id="back" >Go&nbsp;Back</button></a> &nbsp; &nbsp;  &nbsp;
+         <button class="btn btn-primary" id="add">UPDATE</button>
+        
+   
+       
+          
+       </form>
+       </div>
+
+
+
+
+    </li>
+</ul>
+
+
+<style>
+    input[type=text], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      background-color: white;
+    }
+    input[type=number],select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    #add {
+      width: 30%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #back {
+      width: 30%;
+      background-color: #df9c5d;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+    
+    div {
+      border-radius: 5px;
+      margin: auto;
+      width: 80%;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    </style>
+  
+  {% endblock content%}
