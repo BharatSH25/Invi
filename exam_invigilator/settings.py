@@ -133,8 +133,8 @@ STATIC_URL = '/static/'
 EMAIL_USE_TLS=True
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=587
-EMAIL_HOST_USER='bharatharikant25@gmail.com'
-EMAIL_HOST_PASSWORD='iplmfzpwexptfipa'
+EMAIL_HOST_USER='hostemail@gmail.com'
+EMAIL_HOST_PASSWORD=' here put App key'
 
 
 
